@@ -1,4 +1,5 @@
 import pymysql
+import pandas as pd
 
 
 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
@@ -35,8 +36,21 @@ def receptionist():
          
 
         a.execute("insert into PATIENT values("+str(user)+",'"+name+"',"+str(age)+",'"+date+"','"+doc+"',NULL,NULL,NULL,NULL,NULL,NULL)")
-    elif(ch2==2):
-            pass
+    elif(ch2==3):
+        user=int(input('Enter PATIENT ID'))
+        name=input('Enter PATIENT NAME')
+        a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user)+" and PATIENT_NAME='"+name+"'" )
+        D=a.fetchall()
+        data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
+        data.set_index('PATIENT_ID ',inplace=True)
+        print(data.iloc[:,0:5])
+        a.execute("select *from PATIENT")
+        D=a.fetchall()
+        data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
+        
+        print(data.iloc[:,0:5])
+        
+
     conn.commit()
 
 if(ch1==1):
