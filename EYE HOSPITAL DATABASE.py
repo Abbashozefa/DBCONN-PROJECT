@@ -1,7 +1,7 @@
 try:
     import pymysql
     import pandas as pd
-    pd.set_option('display.max_columns', 11)
+    pd.set_option("display.max_rows", 10000, "display.max_columns", 12)
 
 
     conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
@@ -69,7 +69,7 @@ try:
                     age=int(input('Enter PATIENT AGE'))
                     a.execute("select distinct* from PATIENT where PATIENT_ID="+str(user) )
                     D=a.fetchall()
-                    print(D)
+                    
                     
                     a.execute("insert into PATIENT values("+str(user)+",'"+D[0][1]+"',"+str(age)+",'"+date+"','"+D[0][4]+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 else:
@@ -86,7 +86,7 @@ try:
 
                
                 print('1.UPDATE PATIENTS EYE POWER')
-                print('2.MAKE EYEM POWER')
+                print('2.MAKE EYE POWER')
                 print('3.')
                 print('4.GO BACK')
                 ch2=int(input('SELECT YOUR FIELD:::'))
@@ -134,6 +134,8 @@ try:
                     lsph=input('Enter LEFT EYE AXIS:')
                     lcyl=input('Enter LEFT EYE CYLINDRICAL:')
                     laxis=input('Enter LEFT EYE AXIS')
+                    
+                    
                     a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
                 else:
                     break    
@@ -146,7 +148,7 @@ try:
 
                
                 print('1.CHECK COMPLETE RECORD')
-                print('2.ROUTINE CHECKUP PATIENT DETAILS')
+                print('2.')
                 print('3.GIVE PRESCRIPTION')
                 print('4.GO BACK')
                 ch2=int(input('SELECT YOUR FIELD:::'))
@@ -171,24 +173,26 @@ try:
 
                    
                 elif(ch2==3):
-                    print('=================================================================================================================================================================================')
-                    print('====================================================================================================================PRESCRIPTION=================================================')
+                    print('==============================================================================================================')
+                    print('=================================================PRESCRIPTION=================================================')
                     
-                    user=int(input('                PATIENT ID: '))
-                    pass
-                    pass
-                    date=input('                    DATE:')
-                    pass
-                    pass
+                    user=int(input('                PATIENT ID:: '))
+                    print('----------------------------------------------------------------------------------------------------------')
+                    date=input('                    DATE::')
+                    print('----------------------------------------------------------------------------------------------------------')
                     med=input('                     MEDICATIONS::')
+                    print('----------------------------------------------------------------------------------------------------------')
                     a.execute("select *from PATIENT WHERE PATIENT_ID="+str(user)+" and DATE_OF_LAST_VISIT='"+date+"'")
                     D=a.fetchall()
                     print('                         AGE :: '+str(D[0][2]))
-                    print('                      CONSULTING DOCTOR'+D[0][4])      
+                    print('----------------------------------------------------------------------------------------------------------')
+                    
+                    print('                         CONSULTING DOCTOR'+D[0][4])
+                    print('----------------------------------------------------------------------------------------------------------')
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
                     print(data.iloc[:,5:])
-                    print('=================================================================================================================================================================================')
+                    print('================================================================================================================')
                 elif(ch2==2):
                     user=int(input('Enter PATIENT ID'))
                     name=input('Enter PATIENT NAME')
