@@ -1,7 +1,10 @@
 try:
     import pymysql
     import pandas as pd
-    pd.set_option("display.max_rows", 10000, "display.max_columns", 12)
+
+    pd.set_option("display.max_columns", 12)
+
+
 
 
     conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
@@ -25,13 +28,14 @@ try:
                 if(D==None):
                     a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')
                     
-               
+                print('----------------------------------------------------------------------------------------------------------')
                 print('1.NEW PATIENT')
                 print('2.ROUTINE CHECKUP PATIENT DETAILS')
                 print('3.VIEW PATIENT DETAILS')
                 print('4.GO BACK')
+                print('----------------------------------------------------------------------------------------------------------')
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                
+                print('----------------------------------------------------------------------------------------------------------')                
                 
                 '''a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')'''
                     
@@ -43,33 +47,32 @@ try:
                     user=int(input('Enter PATIENT ID:'))
                     name=input('Enter PATIENT NAME:')
                     age=int(input('Enter PATIENT AGE:'))
-                    date=input('Enter DATE:')
+                    date=input('Enter DATE')
+                    
                     doc=input('Enter CONSULTING DOCTOR:')
+                    print('PATIENT ENTRY DONE')
                      
                      
 
                     a.execute("insert into PATIENT values("+str(user)+",'"+name+"',"+str(age)+",'"+date+"','"+doc+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 elif(ch2==3):
                     user=int(input('Enter PATIENT ID'))
-                    name=input('Enter PATIENT NAME')
-                    a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user)+" and PATIENT_NAME='"+name+"'" )
+                    
+                    a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user))
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
                     data.set_index('PATIENT_ID ',inplace=True)
+                    print('----------------------------------------------------------------------------------------------------------')
                     print(data.iloc[:,0:5])
-                    a.execute("select *from PATIENT")
-                    D=a.fetchall()
-                    data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
+                    print('----------------------------------------------------------------------------------------------------------')
                     
-                    print(data.iloc[:,0:5])
                     
                 elif(ch2==2):
-                    user=int(input('Enter PATIENT ID'))
+                    user=int(input('Enter PATIENT ID:'))
                     date=input('ENTER DATE :')
                     age=int(input('Enter PATIENT AGE'))
                     a.execute("select distinct* from PATIENT where PATIENT_ID="+str(user) )
-                    D=a.fetchall()
-                    
+                    D=a.fetchall()               
                     
                     a.execute("insert into PATIENT values("+str(user)+",'"+D[0][1]+"',"+str(age)+",'"+date+"','"+D[0][4]+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 else:
@@ -84,12 +87,14 @@ try:
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
 
-               
+                print('----------------------------------------------------------------------------------------------------------')
                 print('1.UPDATE PATIENTS EYE POWER')
                 print('2.MAKE EYE POWER')
                 print('3.')
                 print('4.GO BACK')
+                print('----------------------------------------------------------------------------------------------------------')
                 ch2=int(input('SELECT YOUR FIELD:::'))
+                print('----------------------------------------------------------------------------------------------------------')
                
                 
                 
@@ -102,17 +107,17 @@ try:
                     user=input('Enter PATIENT ID:')
                     rsph=input('Enter RIGHT EYE AXIS:')
                     rcyl=input('Enter RIGHT EYE CYLINDRICAL:')
-                    raxis=input('Enter RIGHT EYE AXIS')
+                    raxis=input('Enter RIGHT EYE AXIS:')
                     date=input('ENTER DATE :')
                     lsph=input('Enter LEFT EYE AXIS:')
                     lcyl=input('Enter LEFT EYE CYLINDRICAL:')
-                    laxis=input('Enter LEFT EYE AXIS') 
+                    laxis=input('Enter LEFT EYE AXIS:') 
                      
 
                     a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
                 elif(ch2==3):
-                    user=int(input('Enter PATIENT ID'))
-                    name=input('Enter PATIENT NAME')
+                    user=int(input('Enter PATIENT ID:'))
+                    name=input('Enter PATIENT NAME:')
                     a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user)+" and PATIENT_NAME='"+name+"'" )
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
@@ -121,8 +126,9 @@ try:
                     a.execute("select *from PATIENT")
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
-                    
+                    print('----------------------------------------------------------------------------------------------------------')
                     print(data.iloc[:,0:5])
+                    print('----------------------------------------------------------------------------------------------------------')
                     
                 elif(ch2==2):
                     
@@ -133,10 +139,11 @@ try:
                     date=input('ENTER DATE :')
                     lsph=input('Enter LEFT EYE AXIS:')
                     lcyl=input('Enter LEFT EYE CYLINDRICAL:')
-                    laxis=input('Enter LEFT EYE AXIS')
+                    laxis=input('Enter LEFT EYE AXIS:')
                     
                     
                     a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
+                    print('ENTRY DONE')
                 else:
                     break    
                     
@@ -146,13 +153,15 @@ try:
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
 
-               
+                print('----------------------------------------------------------------------------------------------------------')
                 print('1.CHECK COMPLETE RECORD')
                 print('2.')
                 print('3.GIVE PRESCRIPTION')
                 print('4.GO BACK')
+                print('----------------------------------------------------------------------------------------------------------')
                 ch2=int(input('SELECT YOUR FIELD:::'))
-               
+                print('----------------------------------------------------------------------------------------------------------')
+                
                 
                 
                     
@@ -166,9 +175,9 @@ try:
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
+                    print('----------------------------------------------------------------------------------------------------------')
                     print(data)
-                    
-                     
+                    print('----------------------------------------------------------------------------------------------------------')                                     
                      
 
                    
@@ -193,6 +202,7 @@ try:
                     data.set_index('PATIENT_ID ',inplace=True)
                     print(data.iloc[:,5:])
                     print('================================================================================================================')
+                    print('================================================================================================================')
                 elif(ch2==2):
                     user=int(input('Enter PATIENT ID'))
                     name=input('Enter PATIENT NAME')
@@ -204,8 +214,9 @@ try:
                     a.execute("select *from PATIENT")
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
-                    
+                    print('----------------------------------------------------------------------------------------------------------')
                     print(data.iloc[:,0:5])
+                    print('----------------------------------------------------------------------------------------------------------')
                 else:
                     break  
                 conn.commit()    
@@ -218,4 +229,6 @@ try:
             doctor()
     conn.commit()
 except:
-    print('Something went wrong \n Requesting you to try again')
+    print('|-----------------------------------------------------------------------|')
+    print('                     OPPS!  SOMETHING JUST WENT WRONG')
+    print('|-----------------------------------------------------------------------|')
