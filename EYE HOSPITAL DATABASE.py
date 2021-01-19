@@ -16,7 +16,7 @@ try:
         print('4.SHOW STATISTICS ')
         
         ch1=int(input('SELECT YOUR FIELD:::'))
-        if(ch1==4):
+        def stats():
             a.execute('SELECT AGE FROM PATIENT')
             D=a.fetchall()
             S=()        
@@ -39,14 +39,14 @@ try:
                 if(D==None):
                     a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')
                     
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-'*55)
                 print('1.NEW PATIENT')
                 print('2.ROUTINE CHECKUP PATIENT DETAILS')
                 print('3.VIEW PATIENT DETAILS')
                 print('4.GO BACK')
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-'*55)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('----------------------------------------------------------------------------------------------------------')                
+                print('-',55)                
                 
                 '''a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')'''
                     
@@ -74,9 +74,9 @@ try:
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
                     data.set_index('PATIENT_ID ',inplace=True)
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     print(data.iloc[:,0:5])
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     
                     
                 elif(ch2==2):
@@ -99,14 +99,14 @@ try:
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
 
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                 print('1.UPDATE PATIENTS EYE POWER')
                 print('2.MAKE EYE POWER')
                 print('3.')
                 print('4.GO BACK')
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                
                 
                 
@@ -149,14 +149,14 @@ try:
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
 
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                 print('1.CHECK COMPLETE RECORD')
                 print('2.')
                 print('3.GIVE PRESCRIPTION')
                 print('4.GO BACK')
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('----------------------------------------------------------------------------------------------------------')
+                print('-',55)
                 
                 
                 
@@ -171,34 +171,33 @@ try:
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     print(data)
-                    print('----------------------------------------------------------------------------------------------------------')                                     
+                    print('-',55)                                     
                      
 
                    
                 elif(ch2==3):
-                    print('==============================================================================================================')
+                    print('=',60)
                     print('=================================================PRESCRIPTION=================================================')
                     
                     user=int(input('                PATIENT ID:: '))
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     date=input('                    DATE::')
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     med=input('                     MEDICATIONS::')
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     a.execute("select *from PATIENT WHERE PATIENT_ID="+str(user)+" and DATE_OF_LAST_VISIT='"+date+"'")
                     D=a.fetchall()
                     print('                         AGE :: '+str(D[0][2]))
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     
                     print('                         CONSULTING DOCTOR'+D[0][4])
-                    print('----------------------------------------------------------------------------------------------------------')
+                    print('-',55)
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
                     print(data.iloc[:,5:])
-                    print('================================================================================================================')
-                    print('================================================================================================================')
+                    print('=',60)
                 elif(ch2==2):
                    pass
                 else:
@@ -211,13 +210,15 @@ try:
             general()
         elif(ch1==3):
             doctor()
+        elif(ch1==4):
+            stats()
         else:
             break
     conn.commit()
 except:
-    print('|-----------------------------------------------------------------------|')
+    print('|',30)
     print('                     OPPS!  SOMETHING JUST WENT WRONG')
-    print('|-----------------------------------------------------------------------|')
+    print('|',30)
 
 
     
