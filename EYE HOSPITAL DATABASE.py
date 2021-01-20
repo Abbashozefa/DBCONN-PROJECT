@@ -3,8 +3,7 @@ try:
     import pandas as pd
     import matplotlib.pyplot as plt
     import datetime
-
-
+    
     pd.set_option("display.max_columns", 12)
 
     conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
@@ -14,7 +13,7 @@ try:
         print('2.OPTOMETRIST(GENERAL CHECKUP)')
         print('3.OPTHALMOLOGIST(DOCTOR)')
         print('4.SHOW STATISTICS ')
-        
+        print('-'*100)
         ch1=int(input('SELECT YOUR FIELD:::'))
         def stats():
             a.execute('SELECT AGE FROM PATIENT')
@@ -39,22 +38,20 @@ try:
                 if(D==None):
                     a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')
                     
-                print('-'*55)
+                print('-'*100)
                 print('1.NEW PATIENT')
-                print('2.ROUTINE CHECKUP PATIENT DETAILS')
+                print('2.ROUTINE CHECKUP PATIENT DETAILS ENTRY')
                 print('3.VIEW PATIENT DETAILS')
                 print('4.GO BACK')
-                print('-'*55)
+                print('-'*100)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('-',55)                
+                print('-'*100)                
                 
                 '''a.execute('CREATE TABLE PATIENT(PATIENT_ID INT ,PATIENT_NAME VARCHAR(20),AGE INT,DATE_OF_LAST_VISIT DATE,CONSULTING_DOCTOR VARCHAR(20),RIGHT_SPH DECIMAL(2,1),RIGHT_CYL DECIMAL(2,1),RIGHT_AXIS INT,LEFT_SPH DECIMAL(2,1),LEFT_CYL DECIMAL(2,1),LEFT_AXIS INT)')'''
                     
                
-                if (ch2==1) :
+                if (ch2==1) :                  
                     
-                    
-
                     user=int(input('Enter PATIENT ID:'))
                     name=input('Enter PATIENT NAME:')
                     age=int(input('Enter PATIENT AGE:'))
@@ -68,15 +65,14 @@ try:
 
                     a.execute("insert into PATIENT values("+str(user)+",'"+name+"',"+str(age)+",'"+G+"','"+doc+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 elif(ch2==3):
-                    user=int(input('Enter PATIENT ID'))
-                    
+                    user=int(input('Enter PATIENT ID'))                    
                     a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user))
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
                     data.set_index('PATIENT_ID ',inplace=True)
-                    print('-',55)
+                    print('-'*100)
                     print(data.iloc[:,0:5])
-                    print('-',55)
+                    print('-'*100)
                     
                     
                 elif(ch2==2):
@@ -84,8 +80,7 @@ try:
                     date=input('ENTER DATE :')
                     age=int(input('Enter PATIENT AGE'))
                     a.execute("select distinct* from PATIENT where PATIENT_ID="+str(user) )
-                    D=a.fetchall()               
-                    
+                    D=a.fetchall()             
                     a.execute("insert into PATIENT values("+str(user)+",'"+D[0][1]+"',"+str(age)+",'"+date+"','"+D[0][4]+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 else:
                     break
@@ -98,18 +93,15 @@ try:
             while(True):
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
-
-                print('-',55)
+                print('-'*100)
                 print('1.UPDATE PATIENTS EYE POWER')
                 print('2.MAKE EYE POWER')
                 print('3.')
                 print('4.GO BACK')
-                print('-',55)
+                print('-'*100)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('-',55)
-               
-                
-                
+                print('-'*100)        
+                        
                     
                
                 if (ch2==1) :                 
@@ -136,8 +128,7 @@ try:
                     date=input('ENTER DATE :')
                     lsph=input('Enter LEFT EYE AXIS:')
                     lcyl=input('Enter LEFT EYE CYLINDRICAL:')
-                    laxis=input('Enter LEFT EYE AXIS:')                   
-                    
+                    laxis=input('Enter LEFT EYE AXIS:')                  
                     a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
                     print('ENTRY DONE')
                 else:
@@ -148,15 +139,14 @@ try:
             while(True):
                 conn=pymysql.connect(host='localhost',user='root',password='yellowyellow',database='EYEHOSPITAL')
                 a=conn.cursor()
-
-                print('-',55)
+                print('-'*100)
                 print('1.CHECK COMPLETE RECORD')
-                print('2.')
+                print('2.DELETE RECORD')
                 print('3.GIVE PRESCRIPTION')
                 print('4.GO BACK')
-                print('-',55)
+                print('-'*100)
                 ch2=int(input('SELECT YOUR FIELD:::'))
-                print('-',55)
+                print('-'*100)
                 
                 
                 
@@ -171,9 +161,9 @@ try:
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
-                    print('-',55)
+                    print('-'*100)
                     print(data)
-                    print('-',55)                                     
+                    print('-'*100)                                   
                      
 
                    
@@ -181,25 +171,26 @@ try:
                     print('=',60)
                     print('=================================================PRESCRIPTION=================================================')
                     
-                    user=int(input('                PATIENT ID:: '))
-                    print('-',55)
-                    date=input('                    DATE::')
-                    print('-',55)
-                    med=input('                     MEDICATIONS::')
-                    print('-',55)
+                    user=int(input('           PATIENT ID:: '))
+                    print('-'*100)
+                    date=input('                  DATE::')
+                    print('-'*100)
+                    med=input('                   MEDICATIONS::')
+                    print('-'*100)
                     a.execute("select *from PATIENT WHERE PATIENT_ID="+str(user)+" and DATE_OF_LAST_VISIT='"+date+"'")
                     D=a.fetchall()
-                    print('                         AGE :: '+str(D[0][2]))
-                    print('-',55)
+                    print('                  AGE :: '+str(D[0][2]))
+                    print('-'*100)
                     
-                    print('                         CONSULTING DOCTOR'+D[0][4])
-                    print('-',55)
+                    print('                  CONSULTING DOCTOR'+D[0][4])
+                    print('-'*100)
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR','RIGHT_SPH','RIGHT_CYL','RIGHT_AXIS','LEFT_SPH','LEFT_CYL','LEFT_AXIS'])
                     data.set_index('PATIENT_ID ',inplace=True)
                     print(data.iloc[:,5:])
-                    print('=',60)
+                    print('='*100)
                 elif(ch2==2):
-                   pass
+                    user=input('Enter PATIENT ID which has to deleted:')
+                    a.execute("delete from patient where PATIENT_ID="+str(user))
                 else:
                     break  
                 conn.commit()    
