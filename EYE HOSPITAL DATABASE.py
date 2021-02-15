@@ -1,8 +1,11 @@
 try:
     import pymysql
+    from random import randint
     import pandas as pd
     import matplotlib.pyplot as plt
     import datetime
+    import traceback
+    
     
     pd.set_option("display.max_columns", 12)
 
@@ -24,8 +27,7 @@ try:
             plt.hist(S,bins=[0,20,40,60,80,100,120],facecolor='green',edgecolor='red')
             plt.title('PATIENT AGE DISTRIBUTION')
             plt.xlabel('AGES')
-            plt.ylabel('FREQUENCY')
-            plt.grid(True)
+            plt.ylabel('FREQUENCY')           
             plt.show()
             
         def receptionist():
@@ -42,7 +44,9 @@ try:
                 print('1.NEW PATIENT')
                 print('2.ROUTINE CHECKUP PATIENT DETAILS ENTRY')
                 print('3.VIEW PATIENT DETAILS')
-                print('4.GO BACK')
+                print('4.DELETE RECORD')
+                print('5.GO BACK')
+                
                 print('-'*100)
                 ch2=int(input('SELECT YOUR FIELD:::'))
                 print('-'*100)                
@@ -52,7 +56,8 @@ try:
                
                 if (ch2==1) :                  
                     
-                    user=int(input('Enter PATIENT ID:'))
+                    user=randint(10000,99999
+                                 )
                     name=input('Enter PATIENT NAME:')
                     age=int(input('Enter PATIENT AGE:'))
                     G= str(datetime.date.today())
@@ -65,7 +70,7 @@ try:
 
                     a.execute("insert into PATIENT values("+str(user)+",'"+name+"',"+str(age)+",'"+G+"','"+doc+"',NULL,NULL,NULL,NULL,NULL,NULL)")
                 elif(ch2==3):
-                    user=int(input('Enter PATIENT ID'))                    
+                    user=int(input('Enter PATIENT ID:'))                    
                     a.execute("select PATIENT_ID  ,PATIENT_NAME,AGE,DATE_OF_LAST_VISIT,CONSULTING_DOCTOR from PATIENT where PATIENT_ID="+str(user))
                     D=a.fetchall()
                     data=pd.DataFrame(D,columns=['PATIENT_ID ' ,'PATIENT_NAME','AGE','DATE_OF_LAST_VISIT','CONSULTING_DOCTOR'])
@@ -77,11 +82,15 @@ try:
                     
                 elif(ch2==2):
                     user=int(input('Enter PATIENT ID:'))
-                    date=input('ENTER DATE :')
+                    date=str(datetime.date.today())
                     age=int(input('Enter PATIENT AGE'))
                     a.execute("select distinct* from PATIENT where PATIENT_ID="+str(user) )
                     D=a.fetchall()             
                     a.execute("insert into PATIENT values("+str(user)+",'"+D[0][1]+"',"+str(age)+",'"+date+"','"+D[0][4]+"',NULL,NULL,NULL,NULL,NULL,NULL)")
+                elif(ch2==4):
+                    user=input('Enter PATIENT ID which has to deleted:')
+                    a.execute("delete from patient where PATIENT_ID="+str(user))
+                              
                 else:
                     break
                 
@@ -95,8 +104,8 @@ try:
                 a=conn.cursor()
                 print('-'*100)
                 print('1.UPDATE PATIENTS EYE POWER')
-                print('2.MAKE EYE POWER')
-                print('3.')
+                print('2.STATISTICS OF PATIENT')
+                print('3.DELETE RECORD')
                 print('4.GO BACK')
                 print('-'*100)
                 ch2=int(input('SELECT YOUR FIELD:::'))
@@ -110,27 +119,27 @@ try:
                     rsph=input('Enter RIGHT EYE AXIS:')
                     rcyl=input('Enter RIGHT EYE CYLINDRICAL:')
                     raxis=input('Enter RIGHT EYE AXIS:')
-                    date=input('ENTER DATE :')
+                    date=str(datetime.date.today())
                     lsph=input('Enter LEFT EYE AXIS:')
                     lcyl=input('Enter LEFT EYE CYLINDRICAL:')
                     laxis=input('Enter LEFT EYE AXIS:')                      
 
                     a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
                 elif(ch2==3):
-                    pass
+                    user=input('Enter PATIENT ID which has to deleted:')
+                    a.execute("delete from patient where PATIENT_ID="+str(user))
                     
                 elif(ch2==2):
-                    
                     user=input('Enter PATIENT ID:')
-                    rsph=input('Enter RIGHT EYE AXIS:')
-                    rcyl=input('Enter RIGHT EYE CYLINDRICAL:')
-                    raxis=input('Enter RIGHT EYE AXIS')
-                    date=input('ENTER DATE :')
-                    lsph=input('Enter LEFT EYE AXIS:')
-                    lcyl=input('Enter LEFT EYE CYLINDRICAL:')
-                    laxis=input('Enter LEFT EYE AXIS:')                  
-                    a.execute("update PATIENT set RIGHT_SPH ="+rsph+",RIGHT_CYL ="+rcyl+",RIGHT_AXIS ="+raxis+",LEFT_SPH ="+lsph+",LEFT_CYL ="+lcyl+",LEFT_AXIS="+laxis+"where PATIENT_ID="+user+" and DATE_OF_LAST_VISIT='"+date+"'")
-                    print('ENTRY DONE')
+                    date=str(datetime.date.today())
+                    a.execute("SELECT PATIENT_NAME,RIGHT_SPH ,RIGHT_CYL ,RIGHT_AXIS ,LEFT_SPH ,LEFT_CYL ,LEFT_AXIS FROM PATIENT where PATIENT_ID="+str(user)+" and DATE_OF_LAST_VISIT ='"+date+"'")
+                              
+                    D=a.fetchall()
+                    plt.pie([D[0][1],D[0][2],D[0][3],D[0][4],D[0][5],D[0][6]],labels=['RIGHT_SPH ','RIGHT_CYL' ,'RIGHT_AXIS' ,'LEFT_SPH' ,'LEFT_CYL ','LEFT_AXIS'])
+                    plt.title(D[0][0]
+                              )
+                    plt.show()                   
+                                        
                 else:
                     break    
                     
@@ -168,17 +177,21 @@ try:
 
                    
                 elif(ch2==3):
-                    print('=',60)
-                    print('=================================================PRESCRIPTION=================================================')
+                    print('='*100
+                          )
+                    print('='*40,"PRESCRIPTION",'='*40)
                     
                     user=int(input('           PATIENT ID:: '))
                     print('-'*100)
-                    date=input('                  DATE::')
+                    date=str(datetime.date.today())
+                    print('                     DATE::',date)                    
                     print('-'*100)
                     med=input('                   MEDICATIONS::')
                     print('-'*100)
                     a.execute("select *from PATIENT WHERE PATIENT_ID="+str(user)+" and DATE_OF_LAST_VISIT='"+date+"'")
                     D=a.fetchall()
+                    print('                    NAME :: '+str(D[0][1]))
+                    print('-'*100)
                     print('                  AGE :: '+str(D[0][2]))
                     print('-'*100)
                     
@@ -207,9 +220,10 @@ try:
             break
     conn.commit()
 except:
-    print('|',30)
+    print('|'*50)
     print('                     OPPS!  SOMETHING JUST WENT WRONG')
-    print('|',30)
+    traceback.print_exc()
+    print('|'*50)
 
 
     
